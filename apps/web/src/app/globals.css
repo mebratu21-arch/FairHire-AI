@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #090d16;
+  --foreground: #f1f5f9;
+  --card: #111827;
+  --card-foreground: #f8fafc;
+  --border: #1e293b;
+  --muted: #64748b;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  min-height: 100vh;
+}
+
+/* Glassmorphism containers */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Subtle glow effects */
+.glow-primary {
+  box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.35);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 24px -4px rgba(16, 185, 129, 0.3);
+}
+
+/* RTL-aware logical spacing helper classes */
+.ps-custom {
+  padding-inline-start: 1rem;
+}
+
+.pe-custom {
+  padding-inline-end: 1rem;
+}

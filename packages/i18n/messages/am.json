@@ -1,0 +1,218 @@
+{
+  "_note": "Amharic UI strings — pending native-speaker review before production use. See spec section 15: Amharic launch safeguards.",
+  "auth": {
+    "signIn": "ግባ",
+    "signUp": "ተመዝገብ",
+    "signOut": "ውጣ",
+    "email": "የኢሜይል አድራሻ",
+    "password": "የይለፍ ቃል",
+    "mfaPrompt": "6-ዲጂት ማረጋገጫ ኮድዎን ያስገቡ",
+    "mfaCode": "ማረጋገጫ ኮድ",
+    "forgotPassword": "የይለፍ ቃል ረሳህ?",
+    "noAccount": "መለያ የለህም?",
+    "hasAccount": "ቀድሞ መለያ አለህ?",
+    "verifyMfa": "አረጋግጥ",
+    "invalidCredentials": "ልክ ያልሆነ ኢሜይል ወይም የይለፍ ቃል",
+    "mfaRequired": "MFA ለአስተዳዳሪ መለያዎች ያስፈልጋል"
+  },
+  "nav": {
+    "dashboard": "ዳሽቦርድ",
+    "jobs": "ስራዎች",
+    "candidates": "እጩዎች",
+    "audit": "ኦዲት ምዝግብ",
+    "equity": "እኩልነት",
+    "settings": "ቅንብሮች",
+    "company": "ኩባንያ",
+    "users": "ተጠቃሚዎች እና ሚናዎች",
+    "retention": "የውሂብ ማቆያ",
+    "language": "ቋንቋ እና ማሳያ"
+  },
+  "dashboard": {
+    "title": "ዳሽቦርድ",
+    "openJobs": "ክፍት ስራዎች",
+    "awaitingReview": "ክለሳ እየጠበቀ",
+    "processingQueue": "የሂደት ወረፋ",
+    "recentActivity": "የቅርብ ጊዜ እንቅስቃሴ",
+    "noActivity": "የቅርብ ጊዜ እንቅስቃሴ የለም"
+  },
+  "jobs": {
+    "title": "ስራዎች",
+    "newJob": "አዲስ ስራ",
+    "noJobs": "ስራዎች የሉም። የመጀመሪያውን የስራ ማስታወቂያ ይፍጠሩ።",
+    "status": {
+      "DRAFT": "ረቂቅ",
+      "PUBLISHED": "ታትሟል",
+      "CLOSED": "ዝግ",
+      "ARCHIVED": "ቁልል"
+    },
+    "candidateCount": "{count, plural, =0 {እጩ የለም} one {# እጩ} other {# እጩዎች}}",
+    "editor": {
+      "title": "የስራ ርዕስ",
+      "description": "የስራ መግለጫ",
+      "seniority": "የከፍታ ደረጃ",
+      "location": "ቦታ",
+      "language": "የስራ ቋንቋ",
+      "criteria": "የምርጫ መስፈርቶች",
+      "addCriterion": "መስፈርት ጨምር",
+      "criterionLabel": "መስፈርት",
+      "criterionKind": "አይነት",
+      "criterionWeight": "ክብደት (1–10)",
+      "mustHave": "አስፈላጊ",
+      "niceToHave": "ቢኖር ጥሩ ነው",
+      "publish": "አትም",
+      "saveDraft": "ረቂቅ አስቀምጥ",
+      "duplicate": "ስራ ቃጂ",
+      "criteriaHint": "ሃሳባዊ እጩ ማሟላት ያለበትን 5–10 መስፈርቶች ይግለጹ። ልዩ ሁኑ። የተጠበቁ ባህሪያትን ያስወግዱ።",
+      "minCriteria": "ቢያንስ 1 መስፈርት ያስፈልጋል",
+      "maxCriteria": "ከፍተኛ 10 መስፈርቶች"
+    }
+  },
+  "candidates": {
+    "title": "እጩዎች",
+    "upload": "ሲቪዎች ጫን",
+    "uploadHint": "PDF ወይም DOCX ፋይሎችን ጎትቶ ጣል (እስከ 50፣ 20 ሜባ እያንዳንዳቸው)",
+    "uploading": "በመጫን ላይ…",
+    "processing": "በሂደት ላይ…",
+    "status": {
+      "NEW": "አዲስ",
+      "PARSING": "በትንተና",
+      "PARSE_FAILED": "ትንተና ወድቋል",
+      "READY": "ዝግጁ",
+      "SCREENING": "በምርጫ",
+      "SCREENED": "ተመርቷል",
+      "SHORTLISTED": "ምርጥ ዝርዝር ላይ",
+      "REJECTED": "ተቀባይነት አላገኘም",
+      "ON_HOLD": "ቆሟል",
+      "DELETED": "ተሰርዟል"
+    },
+    "score": "ነጥብ",
+    "shortlist": "ወደ ምርጥ ዝርዝር ጨምር",
+    "reject": "ውድቅ አድርግ",
+    "hold": "ቆም",
+    "bulkShortlist": "ቡድን ወደ ምርጥ ዝርዝር ጨምር",
+    "reasonRequired": "ምክንያት ያስፈልጋል",
+    "reasonPlaceholder": "ለምን ይህን ውሳኔ እያደረጉ ነው?",
+    "overrideWarning": "ይህ የAI ምርጫ ነጥብን ይቃወማል። ምክንያትዎ ይመዘገባል።",
+    "blindMode": "የዕውር ሁናቴ",
+    "blindModeHint": "ስሞች እና መለያ መረጃ እስኪያሳዩ ድረስ ተደብቀዋል",
+    "unmask": "ማንነት ቅረጽ",
+    "unmaskWarning": "ይህ እጩ ማስፈቀጃ ሰነዱ ውስጥ ይመዘገባል። እባክዎ ምክንያት ያቅርቡ።",
+    "unmaskReason": "ለማሳየት ምክንያት",
+    "missingMustHave": "አስፈላጊ መስፈርቶች ጠፍተዋል",
+    "evidencePanel": "ማስረጃ",
+    "biasRiskNotes": "የአድሎ ስጋት ማስታወሻዎች",
+    "biasRiskHint": "እነዚህ የግንዛቤ ማስታወሻዎች ብቻ ናቸው — ነጥቡን አይነኩም።",
+    "rescreen": "ምርጫ እንደገና አስኬድ",
+    "lowConfidence": "ዝቅተኛ ልበ-ሙሉነት — ሰው ሰራሽ ክለሳ ይመከራል",
+    "injectionWarning": "በዚህ ሲቪ ሊሆን የሚችል ትዕዛዝ ማስገባት ተገኝቷል። በእጅ ያረጋግጡ።",
+    "noEvidence": "ማስረጃ አልተገኘም",
+    "criterionScore": {
+      "0": "ማስረጃ የለም",
+      "1": "ደካማ ማስረጃ",
+      "2": "ግልጽ ማስረጃ",
+      "3": "ጠንካራ ማስረጃ"
+    }
+  },
+  "questions": {
+    "title": "የቃለ-ምልልስ ስብስብ",
+    "generate": "ጥያቄዎችን ፍጠር",
+    "type": {
+      "TECHNICAL": "ቴክኒካዊ",
+      "BEHAVIOURAL": "ባህሪያዊ (STAR)",
+      "VALUES": "እሴቶች እና የስራ ዘዴ",
+      "SCENARIO": "ሁናቴ"
+    },
+    "whatGoodLooksLike": "ጥሩ ምላሽ እንዴት ይመስላል",
+    "redFlags": "ቀይ ባንዲራዎች",
+    "prohibitedTopic": "ይህ ጥያቄ የተከለከለ ርዕስን ይነካል እናም ሊቀመጥ አይችልም።",
+    "edit": "ጥያቄ አርትዕ",
+    "save": "አስቀምጥ",
+    "cancel": "ሰርዝ"
+  },
+  "audit": {
+    "title": "ኦዲት ምዝግብ",
+    "verifyChain": "ታማኝነት ያረጋግጡ",
+    "chainValid": "የኦዲት ሰንሰለት ታማኝነት ተረጋግጧል",
+    "chainInvalid": "የኦዲት ሰንሰለት ታማኝነት ማረጋገጫ ወድቋል — ወዲያው ድጋፍን ያነጋግሩ",
+    "actor": "ፈጻሚ",
+    "action": "ድርጊት",
+    "entity": "ዓካካ",
+    "timestamp": "የጊዜ ማህተም",
+    "metadata": "ዝርዝሮች",
+    "noEvents": "የኦዲት ክስተቶች አልተገኙም"
+  },
+  "equity": {
+    "title": "የእኩልነት ዳሽቦርድ",
+    "selectionRate": "የምርጫ ደረጃ",
+    "adverseImpact": "የአሉታዊ ተጽዕኖ ምጣኔ",
+    "suppressedGroup": "የቡድኑ መጠን ለማሳየት በጣም ትንሽ ነው (የግለሰብ ሚስጥርነት ጥበቃ)",
+    "optIn": "ይህ ዳሽቦርድ የፈቃደኝነት ራስን-መለያ ውሂብ ብቻ ያሳያል። የተጠበቁ ባህሪያት ፈጽሞ አይጠቁሙም።",
+    "noData": "ለዚህ ስራ እስካሁን ምንም ራስን-መለያ ውሂብ አልቀረበም።"
+  },
+  "settings": {
+    "title": "ቅንብሮች",
+    "company": {
+      "title": "የኩባንያ ቅንብሮች",
+      "name": "የኩባንያ ስም",
+      "retention": "የውሂብ ማቆያ (ቀናት)",
+      "retentionHint": "የሲቪ ፋይሎች፣ ተተነተነ ውሂብ እና የምርጫ ሩጫዎች ከዚህ ጊዜ በኋላ ይሰረዛሉ።",
+      "save": "ለውጦችን አስቀምጥ"
+    },
+    "users": {
+      "title": "ተጠቃሚዎች እና ሚናዎች",
+      "invite": "ተጠቃሚ ጋብዝ",
+      "email": "ኢሜይል",
+      "role": "ሚና",
+      "status": "ሁናቴ",
+      "active": "ንቁ",
+      "deactivated": "ታግዷል",
+      "deactivate": "አቦ",
+      "changeRole": "ሚና ቀይር",
+      "roles": {
+        "ADMIN": "አስተዳዳሪ",
+        "RECRUITER": "ምልምይ",
+        "HIRING_MANAGER": "የቅጥር አስተዳዳሪ",
+        "AUDITOR": "ኦዲተር (ማንበብ ብቻ)"
+      }
+    },
+    "language": {
+      "title": "ቋንቋ እና ማሳያ",
+      "language": "የይነፊጽ ቋንቋ",
+      "blindMode": "ነባሪ የዕውር ሁናቴ",
+      "blindModeHint": "ሲነቃ፣ የእጩ ስሞች እና መለያ መረጃ እስኪሳዩ ድረስ ተደብቀዋል።"
+    }
+  },
+  "common": {
+    "save": "አስቀምጥ",
+    "cancel": "ሰርዝ",
+    "delete": "ሰርዝ",
+    "edit": "አርትዕ",
+    "loading": "በመጫን ላይ…",
+    "error": "ስህተት ተከስቷል። እባክዎ እንደገና ይሞክሩ።",
+    "noData": "ምንም ውሂብ አይገኝም",
+    "search": "ፈልግ",
+    "filter": "ማጣሪያ",
+    "sort": "አደራደር",
+    "export": "ላክ",
+    "csv": "CSV",
+    "pdf": "PDF",
+    "back": "ተመለስ",
+    "next": "ቀጣይ",
+    "previous": "ቀዳሚ",
+    "confirm": "አረጋግጥ",
+    "close": "ዝጋ",
+    "required": "አስፈላጊ",
+    "optional": "አማራጭ",
+    "yes": "አዎ",
+    "no": "አይ"
+  },
+  "errors": {
+    "400": "ልክ ያልሆነ ጥያቄ",
+    "401": "ለመቀጠል እባክዎ ይግቡ",
+    "403": "ለዚህ ቅፅ ፈቃድ የለዎትም",
+    "404": "አልተገኘም",
+    "409": "ግጭት ተፈጥሯል",
+    "429": "ብዙ ጥያቄዎች — እባክዎ ይጠብቁ",
+    "500": "የሰርቨር ስህተት — እባክዎ ቆይተው ይሞክሩ"
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "auth": {
+    "signIn": "התחברות",
+    "signUp": "הרשמה",
+    "signOut": "התנתקות",
+    "email": "כתובת אימייל",
+    "password": "סיסמה",
+    "mfaPrompt": "הזן את קוד האימות בן 6 הספרות",
+    "mfaCode": "קוד אימות",
+    "forgotPassword": "שכחת סיסמה?",
+    "noAccount": "אין לך חשבון?",
+    "hasAccount": "כבר יש לך חשבון?",
+    "verifyMfa": "אמת",
+    "invalidCredentials": "כתובת אימייל או סיסמה שגויה",
+    "mfaRequired": "אימות דו-שלבי נדרש לחשבונות מנהל"
+  },
+  "nav": {
+    "dashboard": "לוח בקרה",
+    "jobs": "משרות",
+    "candidates": "מועמדים",
+    "audit": "יומן ביקורת",
+    "equity": "שוויון הזדמנויות",
+    "settings": "הגדרות",
+    "company": "חברה",
+    "users": "משתמשים ותפקידים",
+    "retention": "שמירת נתונים",
+    "language": "שפה ותצוגה"
+  },
+  "dashboard": {
+    "title": "לוח בקרה",
+    "openJobs": "משרות פתוחות",
+    "awaitingReview": "ממתינים לבדיקה",
+    "processingQueue": "תור עיבוד",
+    "recentActivity": "פעילות אחרונה",
+    "noActivity": "אין פעילות אחרונה"
+  },
+  "jobs": {
+    "title": "משרות",
+    "newJob": "משרה חדשה",
+    "noJobs": "אין משרות עדיין. צור את פרסום המשרה הראשון שלך.",
+    "status": {
+      "DRAFT": "טיוטה",
+      "PUBLISHED": "פורסם",
+      "CLOSED": "סגור",
+      "ARCHIVED": "בארכיון"
+    },
+    "candidateCount": "{count, plural, =0 {אין מועמדים} one {מועמד אחד} two {שני מועמדים} many {# מועמדים} other {# מועמדים}}",
+    "editor": {
+      "title": "כותרת משרה",
+      "description": "תיאור משרה",
+      "seniority": "דרגת בכירות",
+      "location": "מיקום",
+      "language": "שפת המשרה",
+      "criteria": "קריטריונים לסינון",
+      "addCriterion": "הוסף קריטריון",
+      "criterionLabel": "קריטריון",
+      "criterionKind": "סוג",
+      "criterionWeight": "משקל (1–10)",
+      "mustHave": "חובה",
+      "niceToHave": "רצוי",
+      "publish": "פרסם",
+      "saveDraft": "שמור טיוטה",
+      "duplicate": "שכפל משרה",
+      "criteriaHint": "הגדר 5–10 קריטריונים שהמועמד האידיאלי צריך לעמוד בהם. היה ספציפי. הימנע ממאפיינים מוגנים.",
+      "minCriteria": "נדרש לפחות קריטריון אחד",
+      "maxCriteria": "מקסימום 10 קריטריונים"
+    }
+  },
+  "candidates": {
+    "title": "מועמדים",
+    "upload": "העלה קורות חיים",
+    "uploadHint": "גרור ושחרר קבצי PDF או DOCX (עד 50, 20 מ\"ב כל אחד)",
+    "uploading": "מעלה…",
+    "processing": "מעבד…",
+    "status": {
+      "NEW": "חדש",
+      "PARSING": "מנתח",
+      "PARSE_FAILED": "ניתוח נכשל",
+      "READY": "מוכן",
+      "SCREENING": "בסינון",
+      "SCREENED": "נבדק",
+      "SHORTLISTED": "ברשימה הקצרה",
+      "REJECTED": "נדחה",
+      "ON_HOLD": "בהמתנה",
+      "DELETED": "נמחק"
+    },
+    "score": "ציון",
+    "shortlist": "הוסף לרשימה הקצרה",
+    "reject": "דחה",
+    "hold": "השהה",
+    "bulkShortlist": "הוסף קבוצה לרשימה הקצרה",
+    "reasonRequired": "נדרשת סיבה",
+    "reasonPlaceholder": "מדוע אתה מקבל החלטה זו?",
+    "overrideWarning": "זה סותר את ציון סינון הבינה המלאכותית. הסיבה שלך תירשם.",
+    "blindMode": "מצב עיוור",
+    "blindModeHint": "שמות ומידע מזהה מוסתרים עד שתבחר לחשוף",
+    "unmask": "חשוף זהות",
+    "unmaskWarning": "חשיפת מועמד זה תירשם ביומן הביקורת. אנא ספק סיבה.",
+    "unmaskReason": "סיבה לחשיפה",
+    "missingMustHave": "קריטריוני חובה חסרים",
+    "evidencePanel": "ראיות",
+    "biasRiskNotes": "הערות סיכון הטיה",
+    "biasRiskHint": "אלו הערות מודעות בלבד — הן אינן משפיעות על הציון.",
+    "rescreen": "הפעל סינון מחדש",
+    "lowConfidence": "אמינות נמוכה — מומלצת בדיקה ידנית",
+    "injectionWarning": "זוהתה הזרקת הוראות אפשרית בקורות חיים אלו. אנא בדוק ידנית.",
+    "noEvidence": "לא נמצאו ראיות",
+    "criterionScore": {
+      "0": "אין ראיות",
+      "1": "ראיות חלשות",
+      "2": "ראיות ברורות",
+      "3": "ראיות חזקות"
+    }
+  },
+  "questions": {
+    "title": "ערכת ראיון",
+    "generate": "צור שאלות",
+    "type": {
+      "TECHNICAL": "טכני",
+      "BEHAVIOURAL": "התנהגותי (STAR)",
+      "VALUES": "ערכים וסגנון עבודה",
+      "SCENARIO": "תרחיש"
+    },
+    "whatGoodLooksLike": "כיצד נראית תשובה טובה",
+    "redFlags": "דגלים אדומים",
+    "prohibitedTopic": "שאלה זו נוגעת בנושא אסור ולא ניתן לשמור אותה.",
+    "edit": "ערוך שאלה",
+    "save": "שמור",
+    "cancel": "בטל"
+  },
+  "audit": {
+    "title": "יומן ביקורת",
+    "verifyChain": "אמת שלמות",
+    "chainValid": "שלמות שרשרת הביקורת אומתה",
+    "chainInvalid": "בדיקת שלמות שרשרת הביקורת נכשלה — צור קשר עם התמיכה מיידית",
+    "actor": "גורם מבצע",
+    "action": "פעולה",
+    "entity": "ישות",
+    "timestamp": "חותמת זמן",
+    "metadata": "פרטים",
+    "noEvents": "לא נמצאו אירועי ביקורת"
+  },
+  "equity": {
+    "title": "לוח שוויון הזדמנויות",
+    "selectionRate": "שיעור בחירה",
+    "adverseImpact": "יחס השפעה שלילית",
+    "suppressedGroup": "גודל הקבוצה קטן מדי לתצוגה (הגנת פרטיות)",
+    "optIn": "לוח זה מציג נתוני זיהוי עצמי מרצון בלבד. תכונות מוגנות אינן מוסקות לעולם.",
+    "noData": "לא הוגשו נתוני זיהוי עצמי למשרה זו עדיין."
+  },
+  "settings": {
+    "title": "הגדרות",
+    "company": {
+      "title": "הגדרות חברה",
+      "name": "שם החברה",
+      "retention": "שמירת נתונים (ימים)",
+      "retentionHint": "קבצי קורות חיים, נתונים מנותחים והרצות סינון נמחקים לאחר תקופה זו.",
+      "save": "שמור שינויים"
+    },
+    "users": {
+      "title": "משתמשים ותפקידים",
+      "invite": "הזמן משתמש",
+      "email": "אימייל",
+      "role": "תפקיד",
+      "status": "סטטוס",
+      "active": "פעיל",
+      "deactivated": "מושבת",
+      "deactivate": "השבת",
+      "changeRole": "שנה תפקיד",
+      "roles": {
+        "ADMIN": "מנהל",
+        "RECRUITER": "מגייס",
+        "HIRING_MANAGER": "מנהל גיוס",
+        "AUDITOR": "מבקר (קריאה בלבד)"
+      }
+    },
+    "language": {
+      "title": "שפה ותצוגה",
+      "language": "שפת ממשק",
+      "blindMode": "מצב עיוור כברירת מחדל",
+      "blindModeHint": "כשמופעל, שמות מועמדים ומידע מזהה מוסתרים עד לחשיפה מכוונת."
+    }
+  },
+  "common": {
+    "save": "שמור",
+    "cancel": "בטל",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "loading": "טוען…",
+    "error": "אירעה שגיאה. אנא נסה שוב.",
+    "noData": "אין נתונים זמינים",
+    "search": "חיפוש",
+    "filter": "סינון",
+    "sort": "מיון",
+    "export": "ייצוא",
+    "csv": "CSV",
+    "pdf": "PDF",
+    "back": "חזרה",
+    "next": "הבא",
+    "previous": "הקודם",
+    "confirm": "אשר",
+    "close": "סגור",
+    "required": "חובה",
+    "optional": "אופציונלי",
+    "yes": "כן",
+    "no": "לא"
+  },
+  "errors": {
+    "400": "בקשה שגויה",
+    "401": "אנא התחבר כדי להמשיך",
+    "403": "אין לך הרשאה לפעולה זו",
+    "404": "לא נמצא",
+    "409": "אירע קונפליקט",
+    "429": "יותר מדי בקשות — אנא המתן",
+    "500": "שגיאת שרת — אנא נסה שוב מאוחר יותר"
+  }
+}

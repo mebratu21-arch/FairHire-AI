@@ -1,0 +1,12 @@
+{
+  "name": "@fairhire/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./messages/*": "./messages/*.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3"
+  }
+}

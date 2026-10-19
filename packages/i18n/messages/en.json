@@ -1,0 +1,217 @@
+{
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email address",
+    "password": "Password",
+    "mfaPrompt": "Enter your 6-digit authentication code",
+    "mfaCode": "Authentication code",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "verifyMfa": "Verify",
+    "invalidCredentials": "Invalid email or password",
+    "mfaRequired": "MFA is required for administrator accounts"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "jobs": "Jobs",
+    "candidates": "Candidates",
+    "audit": "Audit Log",
+    "equity": "Equity",
+    "settings": "Settings",
+    "company": "Company",
+    "users": "Users & Roles",
+    "retention": "Retention",
+    "language": "Language & Display"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "openJobs": "Open Jobs",
+    "awaitingReview": "Awaiting Review",
+    "processingQueue": "Processing Queue",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity"
+  },
+  "jobs": {
+    "title": "Jobs",
+    "newJob": "New Job",
+    "noJobs": "No jobs yet. Create your first job posting.",
+    "status": {
+      "DRAFT": "Draft",
+      "PUBLISHED": "Published",
+      "CLOSED": "Closed",
+      "ARCHIVED": "Archived"
+    },
+    "candidateCount": "{count, plural, =0 {No candidates} one {# candidate} other {# candidates}}",
+    "editor": {
+      "title": "Job Title",
+      "description": "Job Description",
+      "seniority": "Seniority Level",
+      "location": "Location",
+      "language": "Job Language",
+      "criteria": "Screening Criteria",
+      "addCriterion": "Add Criterion",
+      "criterionLabel": "Criterion",
+      "criterionKind": "Type",
+      "criterionWeight": "Weight (1–10)",
+      "mustHave": "Must Have",
+      "niceToHave": "Nice to Have",
+      "publish": "Publish",
+      "saveDraft": "Save Draft",
+      "duplicate": "Duplicate Job",
+      "criteriaHint": "Define 5–10 criteria the ideal candidate must meet. Be specific. Avoid protected attributes.",
+      "minCriteria": "At least 1 criterion is required",
+      "maxCriteria": "Maximum 10 criteria"
+    }
+  },
+  "candidates": {
+    "title": "Candidates",
+    "upload": "Upload CVs",
+    "uploadHint": "Drag and drop PDF or DOCX files (max 50, 20 MB each)",
+    "uploading": "Uploading…",
+    "processing": "Processing…",
+    "status": {
+      "NEW": "New",
+      "PARSING": "Parsing",
+      "PARSE_FAILED": "Parse Failed",
+      "READY": "Ready",
+      "SCREENING": "Screening",
+      "SCREENED": "Screened",
+      "SHORTLISTED": "Shortlisted",
+      "REJECTED": "Rejected",
+      "ON_HOLD": "On Hold",
+      "DELETED": "Deleted"
+    },
+    "score": "Score",
+    "shortlist": "Shortlist",
+    "reject": "Reject",
+    "hold": "On Hold",
+    "bulkShortlist": "Bulk Shortlist",
+    "reasonRequired": "A reason is required",
+    "reasonPlaceholder": "Why are you making this decision?",
+    "overrideWarning": "This contradicts the AI screening score. Your reason will be recorded.",
+    "blindMode": "Blind Mode",
+    "blindModeHint": "Names and identifying information are hidden until you choose to unmask",
+    "unmask": "Reveal Identity",
+    "unmaskWarning": "Unmasking this candidate will be recorded in the audit log. Please provide a reason.",
+    "unmaskReason": "Reason for unmasking",
+    "missingMustHave": "Missing must-have criteria",
+    "evidencePanel": "Evidence",
+    "biasRiskNotes": "Bias Risk Notes",
+    "biasRiskHint": "These are awareness notes only — they do not affect the score.",
+    "rescreen": "Re-run Screening",
+    "lowConfidence": "Low confidence — manual review recommended",
+    "injectionWarning": "Potential prompt injection detected in this CV. Please review manually.",
+    "noEvidence": "No evidence found",
+    "criterionScore": {
+      "0": "No evidence",
+      "1": "Weak evidence",
+      "2": "Clear evidence",
+      "3": "Strong evidence"
+    }
+  },
+  "questions": {
+    "title": "Interview Kit",
+    "generate": "Generate Questions",
+    "type": {
+      "TECHNICAL": "Technical",
+      "BEHAVIOURAL": "Behavioural (STAR)",
+      "VALUES": "Values & Working Style",
+      "SCENARIO": "Scenario"
+    },
+    "whatGoodLooksLike": "What good looks like",
+    "redFlags": "Red flags",
+    "prohibitedTopic": "This question touches on a prohibited topic and cannot be saved.",
+    "edit": "Edit Question",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "audit": {
+    "title": "Audit Log",
+    "verifyChain": "Verify Integrity",
+    "chainValid": "Audit chain integrity verified",
+    "chainInvalid": "Audit chain integrity check failed — contact support immediately",
+    "actor": "Actor",
+    "action": "Action",
+    "entity": "Entity",
+    "timestamp": "Timestamp",
+    "metadata": "Details",
+    "noEvents": "No audit events found"
+  },
+  "equity": {
+    "title": "Equity Dashboard",
+    "selectionRate": "Selection Rate",
+    "adverseImpact": "Adverse Impact Ratio",
+    "suppressedGroup": "Group size too small to display (privacy protection)",
+    "optIn": "This dashboard shows voluntary self-identification data only. Protected traits are never inferred.",
+    "noData": "No self-identification data submitted for this job yet."
+  },
+  "settings": {
+    "title": "Settings",
+    "company": {
+      "title": "Company Settings",
+      "name": "Company Name",
+      "retention": "Data Retention (days)",
+      "retentionHint": "CV files, parsed data and screening runs are deleted after this period.",
+      "save": "Save Changes"
+    },
+    "users": {
+      "title": "Users & Roles",
+      "invite": "Invite User",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "active": "Active",
+      "deactivated": "Deactivated",
+      "deactivate": "Deactivate",
+      "changeRole": "Change Role",
+      "roles": {
+        "ADMIN": "Admin",
+        "RECRUITER": "Recruiter",
+        "HIRING_MANAGER": "Hiring Manager",
+        "AUDITOR": "Auditor (Read-only)"
+      }
+    },
+    "language": {
+      "title": "Language & Display",
+      "language": "Interface Language",
+      "blindMode": "Blind Mode by Default",
+      "blindModeHint": "When enabled, candidate names and identifying information are hidden until deliberately revealed."
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading…",
+    "error": "An error occurred. Please try again.",
+    "noData": "No data available",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "csv": "CSV",
+    "pdf": "PDF",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "close": "Close",
+    "required": "Required",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "errors": {
+    "400": "Invalid request",
+    "401": "Please sign in to continue",
+    "403": "You don't have permission to do this",
+    "404": "Not found",
+    "409": "A conflict occurred",
+    "429": "Too many requests — please wait",
+    "500": "Server error — please try again later"
+  }
+}

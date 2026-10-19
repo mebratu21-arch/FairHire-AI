@@ -1,0 +1,36 @@
+{
+  "name": "@fairhire/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fairhire/db": "*",
+    "@fairhire/shared": "*",
+    "@fairhire/prompts": "*",
+    "@fairhire/redaction": "*",
+    "@fairhire/llm-gateway": "*",
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/platform-express": "^11.0.11",
+    "@nestjs/swagger": "^11.0.6",
+    "@prisma/client": "^6.7.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.5",
+    "@nestjs/schematics": "^11.0.2",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}

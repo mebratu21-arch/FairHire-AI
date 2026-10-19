@@ -1,0 +1,519 @@
+// =============================================================
+// FairHire AI — Prisma Schema
+// Version: 1.0.0
+// See packages/db/src/rls.sql for Row-Level Security policies.
+// =============================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/client"
+  previewFeatures = ["strictUndefinedChecks"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  RECRUITER
+  HIRING_MANAGER
+  AUDITOR // read-only: audit log and equity dashboard
+}
+
+enum JobStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  ARCHIVED
+}
+
+enum CriterionKind {
+  MUST_HAVE
+  NICE_TO_HAVE
+}
+
+enum CandidateStatus {
+  NEW
+  PARSING
+  PARSE_FAILED
+  READY
+  SCREENING
+  SCREENED
+  SHORTLISTED
+  REJECTED
+  ON_HOLD
+  DELETED
+}
+
+enum ScanStatus {
+  PENDING
+  CLEAN
+  INFECTED
+  REJECTED // file type violation, size, page count
+}
+
+enum Decision {
+  SHORTLIST
+  REJECT
+  ON_HOLD
+}
+
+enum Locale {
+  en
+  he
+  am
+}
+
+// ─────────────────────────────────────────────
+// Company / Tenant
+// ─────────────────────────────────────────────
+
+/// One row per customer organisation. Every other table is scoped to a company.
+model Company {
+  id                String   @id @default(cuid())
+  name              String
+  retentionDays     Int      @default(365)
+  /// Feature flag: Amharic AI enabled only after evaluation pass
+  featureAiAmharic  Boolean  @default(false)
+  /// Feature flag: equity dashboard
+  featureEquity     Boolean  @default(true)
+  /// Daily LLM spend cap per tenant (USD)
+  llmDailyBudgetUsd Decimal  @default(5.00) @db.Decimal(10, 2)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  memberships Membership[]
+  jobs        Job[]
+
+  @@map("companies")
+}
+
+// ─────────────────────────────────────────────
+// Users and Memberships
+// ─────────────────────────────────────────────
+
+/// Auth.js / NextAuth user record.
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  emailVerified DateTime?
+  /// Hashed TOTP secret — never returned via API
+  totpSecret    String?
+  mfaEnabled    Boolean   @default(false)
+  locale        Locale    @default(en)
+  blindModeDefault Boolean @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  memberships  Membership[]
+  decisions    HumanDecision[]
+  auditEvents  AuditEvent[]
+  // Auth.js relations
+  accounts     Account[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+/// Scoped membership: one user may belong to multiple companies.
+model Membership {
+  id        String   @id @default(cuid())
+  userId    String
+  companyId String
+  role      Role
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  /// Hiring manager assignments (many-to-many through JobAssignment)
+  jobAssignments JobAssignment[]
+
+  @@unique([userId, companyId])
+  @@index([companyId])
+  @@map("memberships")
+}
+
+/// Auth.js OAuth account links
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+/// Auth.js database sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─────────────────────────────────────────────
+// Jobs and Criteria
+// ─────────────────────────────────────────────
+
+model Job {
+  id          String    @id @default(cuid())
+  companyId   String
+  title       String
+  description String    @db.Text
+  /// Primary language the recruiter used when writing the JD
+  language    Locale    @default(en)
+  seniority   String?
+  location    String?
+  status      JobStatus @default(DRAFT)
+  createdById String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  company    Company        @relation(fields: [companyId], references: [id])
+  criteria   JobCriterion[]
+  candidates Candidate[]
+  assignees  JobAssignment[]
+
+  @@index([companyId])
+  @@index([companyId, status])
+  @@map("jobs")
+}
+
+model JobCriterion {
+  id          String        @id @default(cuid())
+  jobId       String
+  companyId   String
+  label       String
+  description String?       @db.Text
+  kind        CriterionKind @default(NICE_TO_HAVE)
+  /// Weight 1–10; overall score = weighted average of criterion scores
+  weight      Int           @default(5)
+  /// Sort order within the job
+  position    Int           @default(0)
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@index([companyId])
+  @@map("job_criteria")
+}
+
+/// Per-job assignment for hiring managers
+model JobAssignment {
+  id           String @id @default(cuid())
+  jobId        String
+  membershipId String
+
+  job        Job        @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, membershipId])
+  @@map("job_assignments")
+}
+
+// ─────────────────────────────────────────────
+// Candidates
+// ─────────────────────────────────────────────
+
+/// Core candidate record — no PII stored here.
+/// PII lives in CandidateIdentity, which can be deleted independently.
+model Candidate {
+  id          String          @id @default(cuid())
+  companyId   String
+  jobId       String
+  /// Pseudonymous ID displayed to recruiter during blind review (e.g. "CV-00042")
+  externalRef String
+  status      CandidateStatus @default(NEW)
+  retainUntil DateTime
+  deletedAt   DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  job           Job                @relation(fields: [jobId], references: [id])
+  identity      CandidateIdentity?
+  cvFiles       CvFile[]
+  screeningRuns ScreeningRun[]
+  decisions     HumanDecision[]
+  notes         CandidateNote[]
+  questions     InterviewQuestion[]
+
+  @@index([companyId, jobId])
+  @@index([companyId, status])
+  @@index([retainUntil])
+  @@map("candidates")
+}
+
+/// PII isolated from scoring data. Delete this row to anonymise a candidate.
+model CandidateIdentity {
+  candidateId String  @id
+  companyId   String
+  /// Encrypted at rest using ENCRYPTION_KEY
+  fullName    String? @db.Text
+  email       String? @db.Text
+  phone       String? @db.Text
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@map("candidate_identities")
+}
+
+model CandidateNote {
+  id          String   @id @default(cuid())
+  candidateId String
+  companyId   String
+  authorId    String
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([candidateId])
+  @@map("candidate_notes")
+}
+
+// ─────────────────────────────────────────────
+// CV Files
+// ─────────────────────────────────────────────
+
+model CvFile {
+  id          String     @id @default(cuid())
+  candidateId String
+  companyId   String
+  /// S3 key in the clean bucket (null until AV scan passes)
+  storageKey  String?
+  /// S3 key in the quarantine bucket
+  quarantineKey String
+  sha256      String
+  mimeType    String
+  fileSizeBytes Int
+  pageCount   Int?
+  scanStatus  ScanStatus @default(PENDING)
+  /// Language mix detected from the file, e.g. {"he":0.7,"en":0.3}
+  detectedLang Json?
+  /// Was hidden/invisible text found during parsing?
+  hiddenTextFound Boolean @default(false)
+  /// Parse confidence 0–1
+  parseConfidence Float?
+  /// Redacted plain text stored here (not the raw text — raw is discarded after redaction)
+  redactedTextKey String? // S3 key to encrypted redacted text blob
+  parseError  String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  candidate     Candidate      @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  screeningRuns ScreeningRun[]
+
+  @@index([candidateId])
+  @@index([companyId])
+  @@map("cv_files")
+}
+
+// ─────────────────────────────────────────────
+// AI Screening
+// ─────────────────────────────────────────────
+
+/// One row per AI run — never overwritten. Re-runs create new rows.
+model ScreeningRun {
+  id              String   @id @default(cuid())
+  candidateId     String
+  companyId       String
+  cvFileId        String
+  /// Pinned model identifier, e.g. "gemini-2.0-flash-001"
+  modelId         String
+  promptVersion   String   // e.g. "screening@1.0.0"
+  rubricVersion   String   // hash of criteria at time of run
+  outputLanguage  Locale
+  parseConfidence Float?
+  /// [{criterionId, score, evidenceQuote, confidence, note, verified}]
+  criterionResults Json
+  /// Computed deterministically from criterion scores + weights (not by the LLM)
+  overallScore    Float?
+  /// Flag: missing one or more MUST_HAVE criteria
+  missingMustHave Boolean  @default(false)
+  /// IDs of criteria with score 0 and kind=MUST_HAVE
+  missingMustHaveIds Json  @default("[]")
+  /// Bias risk notes from prompt D
+  biasRiskNotes   Json     @default("[]")
+  /// Was any prompt-injection-like content detected?
+  injectionFlagged Boolean @default(false)
+  durationMs      Int?
+  tokenCount      Int?
+  costUsd         Decimal? @db.Decimal(10, 6)
+  createdAt       DateTime @default(now())
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+  cvFile    CvFile    @relation(fields: [cvFileId], references: [id])
+
+  @@index([candidateId])
+  @@index([companyId])
+  @@map("screening_runs")
+}
+
+// ─────────────────────────────────────────────
+// Human Decisions
+// ─────────────────────────────────────────────
+
+model HumanDecision {
+  id          String   @id @default(cuid())
+  candidateId String
+  companyId   String
+  userId      String
+  decision    Decision
+  /// Reason is required — enforced at API level
+  reason      String   @db.Text
+  /// True if decision contradicts the latest AI screening score
+  overrodeAi  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@index([candidateId])
+  @@index([companyId])
+  @@map("human_decisions")
+}
+
+// ─────────────────────────────────────────────
+// Interview Questions
+// ─────────────────────────────────────────────
+
+enum QuestionType {
+  TECHNICAL
+  BEHAVIOURAL // STAR format
+  VALUES      // values and working-style competency (not "culture fit")
+  SCENARIO
+}
+
+enum QuestionSafetyStatus {
+  OK
+  PROHIBITED_TOPIC // blocked from saving
+  PENDING_REVIEW
+}
+
+model InterviewQuestion {
+  id              String               @id @default(cuid())
+  candidateId     String?              // null = job-level question kit
+  jobId           String
+  companyId       String
+  criterionId     String?
+  type            QuestionType
+  question        String               @db.Text
+  whatGoodLooksLike String?            @db.Text
+  redFlags        String?              @db.Text
+  safetyStatus    QuestionSafetyStatus @default(OK)
+  safetyReason    String?
+  /// Edited by recruiter?
+  editedByUserId  String?
+  outputLanguage  Locale
+  promptVersion   String
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  candidate Candidate? @relation(fields: [candidateId], references: [id])
+
+  @@index([jobId])
+  @@index([companyId])
+  @@map("interview_questions")
+}
+
+// ─────────────────────────────────────────────
+// Audit Log — append-only, hash-chained
+// ─────────────────────────────────────────────
+
+/// Every write emits an AuditEvent. The DB role cannot UPDATE or DELETE this table.
+model AuditEvent {
+  id        BigInt   @id @default(autoincrement())
+  companyId String
+  actorId   String?  // null for system events
+  action    String   // e.g. "candidate.unmask", "decision.create"
+  entity    String   // e.g. "Candidate", "HumanDecision"
+  entityId  String
+  /// No PII in metadata — IDs and versions only
+  metadata  Json     @default("{}")
+  /// Hash of the previous event row for this company
+  prevHash  String
+  /// sha256(prevHash + canonical JSON of this event)
+  hash      String
+  createdAt DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id])
+
+  @@index([companyId, createdAt])
+  @@index([companyId, entity, entityId])
+  @@map("audit_events")
+}
+
+// ─────────────────────────────────────────────
+// Equity / Self-Identification (opt-in, separate store)
+// ─────────────────────────────────────────────
+
+/// Voluntary, opt-in self-identification. Never inferred.
+/// Small groups (n < 5 per job family) are suppressed in reports.
+model EquitySelfId {
+  id          String   @id @default(cuid())
+  companyId   String
+  jobId       String
+  /// NOT linked to candidateId — intentionally anonymised
+  submittedAt DateTime @default(now())
+  /// Free-form fields; only stored if candidate consents
+  genderGroup String?
+  ageGroup    String?  // e.g. "25-34"
+  originGroup String?
+
+  @@index([companyId, jobId])
+  @@map("equity_self_ids")
+}
+
+// ─────────────────────────────────────────────
+// LLM Cost Tracking
+// ─────────────────────────────────────────────
+
+/// Daily cost tracking per tenant for spend-cap enforcement.
+model LlmCostLog {
+  id        String   @id @default(cuid())
+  companyId String
+  date      DateTime @db.Date
+  provider  String
+  modelId   String
+  tokens    Int      @default(0)
+  costUsd   Decimal  @default(0) @db.Decimal(10, 6)
+
+  @@unique([companyId, date, provider, modelId])
+  @@index([companyId, date])
+  @@map("llm_cost_logs")
+}
