@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ai.fairhire.app",
+      "sha256_cert_fingerprints": [
+        "FA:18:9E:C0:4B:32:88:99:A1:33:DE:44:EE:22:98:40:9B:6C:55:71:00:23:45:67:89:AB:CD:EF:01:23:45:67"
+      ]
+    }
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "FairHire AI - Fair Recruitment Platform & Scaffold Validator",
+  "description": "AI recruitment platform supporting EN, Hebrew RTL, and Amharic with unbiased CV screening, counterfactual fairness audits, and automated DevOps scaffold validation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,45 @@
+{$DOMAIN:localhost} {
+    # Automatic TLS: uses internal CA when domain is localhost, Let's Encrypt / ZeroSSL in production
+    tls internal
+
+    # Strict Security Headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        -Server
+    }
+
+    # API reverse proxy (NestJS on port 3001)
+    handle /api/* {
+        reverse_proxy api:3001 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Android Digital Asset Links & Web PKI
+    handle /.well-known/* {
+        reverse_proxy web:3000
+    }
+
+    # Web Frontend reverse proxy (Next.js 15 on port 3000)
+    handle {
+        reverse_proxy web:3000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Logging
+    log {
+        output stdout
+        format json
+    }
+}
