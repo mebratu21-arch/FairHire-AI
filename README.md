@@ -11,7 +11,7 @@
   <img alt="data" src="https://img.shields.io/badge/demo%20data-synthetic%20only-green">
 </p>
 
-A master's degree project. It is decision support, not an automatic decision-maker, and it never rejects anyone on its own. This README explains the project end to end with diagrams (GitHub renders them natively).
+ It is decision support, not an automatic decision-maker, and it never rejects anyone on its own. This README explains the project end to end with diagrams (GitHub renders them natively).
 
 ---
 
