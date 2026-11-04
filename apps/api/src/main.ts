@@ -3,7 +3,20 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
+/** Fail fast if any required environment variable is absent or empty. */
+function validateEnv(): void {
+  const required = ['JWT_SECRET', 'DATABASE_URL', 'GEMINI_API_KEY'] as const;
+  const missing = required.filter((key) => !process.env[key]);
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing required environment variables: ${missing.join(', ')}. ` +
+        'Copy .env.example to .env and fill in real values.',
+    );
+  }
+}
+
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
 
   // Application Security hardening

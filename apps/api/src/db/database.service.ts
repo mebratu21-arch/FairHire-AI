@@ -1,4 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+import { Pool } from 'pg';
 
 export interface TenantContext {
   tenantId: string;
@@ -8,12 +9,30 @@ export interface TenantContext {
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(DatabaseService.name);
 
-  async onModuleInit() {
-    this.logger.log('Database Service initialized with Row-Level Security support.');
+  /**
+   * pg.Pool is created lazily. When DATABASE_URL is absent at runtime the
+   * process already failed in validateEnv() (main.ts), so pool creation here
+   * is always safe. The non-null assertion is intentional; env validation
+   * guarantees the value exists before this code runs.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  private pool = new Pool({ connectionString: process.env.DATABASE_URL! });
+
+  async onModuleInit(): Promise<void> {
+    this.logger.log('Database Service initialised — pool connected to Postgres.');
   }
 
-  async onModuleDestroy() {
-    this.logger.log('Database Service connections terminated.');
+  async onModuleDestroy(): Promise<void> {
+    await this.pool.end();
+    this.logger.log('Database Service pool closed.');
+  }
+
+  /**
+   * Runs `SELECT 1` to confirm the database is reachable.
+   * Used by the health endpoint.
+   */
+  async ping(): Promise<void> {
+    await this.pool.query('SELECT 1');
   }
 
   /**
@@ -24,7 +43,18 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     if (!tenantId) {
       throw new Error('Database tenant context missing: tenantId is required for RLS');
     }
-    // In production, executes `SET LOCAL app.current_tenant_id = $1` inside db transaction
-    return run({ tenantId });
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query('SELECT set_config($1, $2, true)', ['app.current_tenant_id', tenantId]);
+      const result = await run({ tenantId });
+      await client.query('COMMIT');
+      return result;
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
   }
 }
